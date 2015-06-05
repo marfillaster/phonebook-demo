@@ -1,0 +1,58 @@
+{% extends '::base.html.twig' %}
+
+{% block body %}
+  <h1>My Contacts</h1>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      Add Contact
+    </div>
+    {% if app.session.flashBag.has('success') %}
+    <div class="bg-success text-success">
+      {% for message in app.session.flashBag.get('success') %}
+          {{ message }}
+      {% endfor %}
+    </div>
+    {% endif %}
+    <div class="panel-body">
+      <form action="{{ path('contacts') }}" method="post">
+        {{ form_row(form) }}
+
+        <button type="submit" class="btn btn-primary">Add Contact</button>
+      </form>
+    </div>
+  </div>
+
+
+
+  <table class="table table-condensed table-bordered table-striped">
+    <thead>
+      <tr>
+        <th>
+          #
+        </th>
+        <th>
+          Name
+        </th>
+        <th>
+          Mobile
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for contact in contacts %}
+          <tr>
+            <td>
+              {{ loop.index }}
+            </td>
+            <td>
+              {{ contact.name }}
+            </td>
+            <td>
+              {{ contact.mobile }}
+            </td>
+          </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+{% endblock %}

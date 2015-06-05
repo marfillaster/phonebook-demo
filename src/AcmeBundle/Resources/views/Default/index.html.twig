@@ -1,1 +1,14 @@
-Hello {{ name }}!
+{% extends '::base.html.twig' %}
+
+{% block body %}
+
+<h1>Homepage</h1>
+<form method="post" action="{{ path('homepage') }}">
+    <input type="text" name="name"/>
+
+    <button type="submit">Say Hello</button>
+</form>
+
+
+
+{% endblock %}
