@@ -1,0 +1,5 @@
+acme:
+    resource: "@AcmeBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
