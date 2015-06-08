@@ -29,6 +29,11 @@ class Contact
      */
     private $mobile;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $company;
+
 
     /**
      * Get id
@@ -84,5 +89,28 @@ class Contact
     public function getMobile()
     {
         return $this->mobile;
+    }
+
+    /**
+     * Set company
+     *
+     * @param string $company
+     * @return Contact
+     */
+    public function setCompany($company)
+    {
+        $this->company = $company;
+
+        return $this;
+    }
+
+    /**
+     * Get company
+     *
+     * @return string 
+     */
+    public function getCompany()
+    {
+        return $this->company;
     }
 }
