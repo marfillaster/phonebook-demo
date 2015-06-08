@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use AcmeBundle\Entity\Contact;
+use AcmeBundle\Form\ContactFormType;
 
 class DefaultController extends Controller
 {
@@ -52,11 +53,7 @@ class DefaultController extends Controller
 
          $contact = new Contact; 
 
-         $formBuilder = $this->createFormBuilder($contact)
-            ->add('name')
-            ->add('mobile', 'number');
-
-         $form = $formBuilder->getForm();
+         $form = $this->createForm(new ContactFormType, $contact);
 
          $session = $this->get('session');
 
