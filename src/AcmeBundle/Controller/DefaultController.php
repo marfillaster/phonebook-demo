@@ -9,6 +9,8 @@ use Symfony\Component\HttpFoundation\Request;
 use AcmeBundle\Entity\Contact;
 use AcmeBundle\Form\Type\ContactFormType;
 
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
 class DefaultController extends Controller
 {
     /**
@@ -87,6 +89,10 @@ class DefaultController extends Controller
          $contact = $om
             ->getRepository('AcmeBundle:Contact')->find($id);
 
+        if (!$contact) {
+            throw new NotFoundHttpException;
+        }
+
          $om->remove($contact);
          $om->flush();
 
@@ -106,6 +112,10 @@ class DefaultController extends Controller
 
          $contact = $om
             ->getRepository('AcmeBundle:Contact')->find($id);
+
+         if (!$contact) {
+             throw new NotFoundHttpException;
+         }
 
          $form = $this->createForm(new ContactFormType, $contact);
 
