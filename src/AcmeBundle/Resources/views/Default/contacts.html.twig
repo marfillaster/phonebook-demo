@@ -14,8 +14,18 @@
     </div>
     {% endif %}
     <div class="panel-body">
-      <form action="{{ path('contacts') }}" method="post">
-        {{ form_row(form) }}
+      <form action="{{ path('contacts') }}" method="post" novalidate>
+        {{ form_errors(form) }}
+
+        <div class="row">
+          <div class="col-lg-6 col-md-6">
+            {{ form_row(form.name) }}
+          </div>
+          <div class="col-lg-6 col-md-6">
+            {{ form_row(form.mobile) }}
+          </div>
+        </div>
+        {{ form_rest(form) }}
 
         <button type="submit" class="btn btn-primary">Add Contact</button>
       </form>
