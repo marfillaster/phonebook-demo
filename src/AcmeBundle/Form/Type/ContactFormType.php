@@ -14,6 +14,10 @@ class ContactFormType extends AbstractType
         $builder
            ->add('name', 'text')
            ->add('mobile', new PhoneNumberFormType);
+
+        if ($builder->getData() && $builder->getData()->getId()) {
+            $builder->add('company');
+        }
     }
 
 

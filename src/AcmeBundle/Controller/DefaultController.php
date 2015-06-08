@@ -7,7 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use AcmeBundle\Entity\Contact;
-use AcmeBundle\Form\ContactFormType;
+use AcmeBundle\Form\Type\ContactFormType;
 
 class DefaultController extends Controller
 {
@@ -51,7 +51,7 @@ class DefaultController extends Controller
 
          $contacts = $repository->findAll();
 
-         $contact = new Contact; 
+         $contact = new Contact;
 
          $form = $this->createForm(new ContactFormType, $contact);
 
