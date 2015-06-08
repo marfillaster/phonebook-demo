@@ -47,6 +47,9 @@
         <th>
           Mobile
         </th>
+        <th>
+          Actions
+        </th>
       </tr>
     </thead>
     <tbody>
@@ -60,6 +63,12 @@
             </td>
             <td>
               {{ contact.mobile }}
+            </td>
+            <td>
+              <a href="{{ path('contact_edit', {id: contact.id}) }}">Edit</a>
+              <a href="{{ path('contact_delete', {id: contact.id}) }}"
+                onclick="return confirm('Are you sure?')"
+              >Delete</a>
             </td>
           </tr>
       {% endfor %}

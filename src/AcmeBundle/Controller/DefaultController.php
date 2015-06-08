@@ -73,7 +73,61 @@ class DefaultController extends Controller
          return array(
              'contacts' => $contacts,
              'form' => $form->createView(),
-             'exitingContacts' => $exitingContacts,
+         );
+     }
+
+     /**
+      * @Route("/contact/delete/{id}", name="contact_delete")
+      */
+     public function deleteAction(Request $request, $id)
+     {
+         $om = $this->get('doctrine')->getManager();
+         $session = $this->get('session');
+
+         $contact = $om
+            ->getRepository('AcmeBundle:Contact')->find($id);
+
+         $om->remove($contact);
+         $om->flush();
+
+         $session->getFlashBag()->set('success', 'Contact removed');
+
+         return $this->redirect($this->generateUrl('contacts'));
+     }
+
+     /**
+      * @Route("/contact/edit/{id}", name="contact_edit")
+      * @Template()
+      */
+     public function editAction(Request $request, $id)
+     {
+         $om = $this->get('doctrine')->getManager();
+         $session = $this->get('session');
+
+         $contact = $om
+            ->getRepository('AcmeBundle:Contact')->find($id);
+
+         $form = $this->createForm(new ContactFormType, $contact);
+
+         if ($request->isMethod('post')) {
+             $form->handleRequest($request);
+
+             if ($form->isValid()) {
+
+                 $om->persist($contact);
+                 $om->flush();
+
+                 $session->getFlashBag()->set('success', 'Contact Updated');
+
+                 return $this->redirect($this->generateUrl('contact_edit', array(
+                     'id' => $contact->getId()
+                 )));
+             }
+         }
+
+         return array(
+             'form' => $form->createView(),
+             'contact' => $contact,
          );
      }
 
