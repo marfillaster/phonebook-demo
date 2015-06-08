@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
+use AcmeBundle\Entity\Contact;
 
 class DefaultController extends Controller
 {
@@ -43,51 +44,34 @@ class DefaultController extends Controller
       */
      public function contactsAction(Request $request)
      {
-         $contacts = array(
-             array(
-                 'name' => 'Obama 1',
-                 'mobile' => '0911111111'
-             ),
-             array(
-                 'name' => 'Obama 2',
-                 'mobile' => '0911111111'
-             ),
-             array(
-                 'name' => 'Obama 3',
-                 'mobile' => '0911111111'
-             ),
-         );
+         $om = $this->get('doctrine')->getManager();
 
-         $formBuilder = $this->createFormBuilder()
+         $repository = $om->getRepository('AcmeBundle:Contact');
+
+         $contacts = $repository->findAll();
+
+         $contact = new Contact; 
+
+         $formBuilder = $this->createFormBuilder($contact)
             ->add('name')
             ->add('mobile', 'number');
 
          $form = $formBuilder->getForm();
 
          $session = $this->get('session');
-         $exitingContacts = array();
-
-         if ($session->has('contacts')) {
-             $exitingContacts = $session->get('contacts');
-         }
 
          if ($request->isMethod('post')) {
              $form->handleRequest($request);
 
              if ($form->isValid()) {
+                 $om->persist($contact);
+                 $om->flush();
 
-                 array_push($exitingContacts, $form->getData());
-
-                 $session->set('contacts', $exitingContacts);
-
-
-                 $session->getFlashBag()->set('success', 'Contact Added');
+                 $session->getFlashBag()->set('success', 'Contact Added: '. ($contact->getId()));
 
                  return $this->redirect($this->generateUrl('contacts'));
              }
          }
-
-         $contacts = array_merge($contacts, $exitingContacts);
 
          return array(
              'contacts' => $contacts,
