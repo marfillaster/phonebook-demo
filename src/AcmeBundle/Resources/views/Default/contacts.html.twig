@@ -14,6 +14,7 @@
     </div>
     {% endif %}
     <div class="panel-body">
+      {% form_theme form 'bootstrap_3_layout.html.twig' %}
       <form action="{{ path('contacts') }}" method="post" novalidate>
         {{ form_errors(form) }}
 
