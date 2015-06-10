@@ -1,3 +1,8 @@
+api:
+    resource: "@ApiBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 acme:
     resource: "@AcmeBundle/Controller/"
     type:     annotation
