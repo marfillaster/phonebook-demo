@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Email
  *
- * @ORM\Table()
+ * @ORM\Table(name="email", indexes={@ORM\Index(name="IDX_E7927C74E7A1254A", columns={"contact_id"})})
  * @ORM\Entity
  */
 class Email
@@ -15,41 +15,37 @@ class Email
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="email", type="string", length=255)
+     * @ORM\Column(name="email", type="string", length=255, nullable=false)
      */
     private $email;
 
     /**
      * @var boolean
      *
-     * @ORM\Column(name="is_primary", type="boolean")
+     * @ORM\Column(name="is_primary", type="boolean", nullable=false)
      */
     private $isPrimary;
 
     /**
+     * @var \Contact
+     *
      * @ORM\ManyToOne(targetEntity="Contact")
-     * @ORM\JoinColumn(name="contact_id", referencedColumnName="id")
-     **/
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="contact_id", referencedColumnName="id")
+     * })
+     */
     private $contact;
 
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+
 
     /**
      * Set email
@@ -67,7 +63,7 @@ class Email
     /**
      * Get email
      *
-     * @return string
+     * @return string 
      */
     public function getEmail()
     {
@@ -90,7 +86,7 @@ class Email
     /**
      * Get isPrimary
      *
-     * @return boolean
+     * @return boolean 
      */
     public function getIsPrimary()
     {
@@ -98,12 +94,22 @@ class Email
     }
 
     /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
      * Set contact
      *
-     * @param \stdClass $contact
+     * @param \AcmeBundle\Entity\Contact $contact
      * @return Email
      */
-    public function setContact($contact)
+    public function setContact(\AcmeBundle\Entity\Contact $contact = null)
     {
         $this->contact = $contact;
 
@@ -113,7 +119,7 @@ class Email
     /**
      * Get contact
      *
-     * @return \stdClass
+     * @return \AcmeBundle\Entity\Contact 
      */
     public function getContact()
     {
