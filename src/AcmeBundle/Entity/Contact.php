@@ -3,53 +3,46 @@
 namespace AcmeBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Contact
- *
+ * @ORM\Entity(repositoryClass="ContactRepository")
  * @ORM\Table(name="contact")
- * @ORM\Entity
  */
 class Contact
 {
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Column(type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=255, nullable=false)
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Name is required")
      */
     private $name;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="mobile", type="string", length=12, nullable=false)
+     * @ORM\Column(type="string", length=12)
      */
     private $mobile;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="company", type="string", length=255, nullable=false)
+     * @ORM\Column(type="string", length=255)
      */
     private $company;
 
-    /**
-     * @ORM\OneToMany(targetEntity="Email", mappedBy="contact")
-     **/
-    private $emails;
 
-    public function __construct() {
-        $this->emails = new ArrayCollection();
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
     }
 
     /**
@@ -114,20 +107,10 @@ class Contact
     /**
      * Get company
      *
-     * @return string
+     * @return string 
      */
     public function getCompany()
     {
         return $this->company;
-    }
-
-    /**
-     * Get id
-     *
-     * @return integer
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 }
