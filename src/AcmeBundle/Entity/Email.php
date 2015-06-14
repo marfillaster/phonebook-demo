@@ -38,7 +38,7 @@ class Email
     /**
      * @var \Contact
      *
-     * @ORM\ManyToOne(targetEntity="Contact")
+     * @ORM\ManyToOne(targetEntity="Contact", inversedBy="emails")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="contact_id", referencedColumnName="id")
      * })
