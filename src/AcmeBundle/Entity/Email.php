@@ -4,6 +4,7 @@ namespace AcmeBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use JMS\Serializer\Annotation as Serializer;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Email
@@ -26,6 +27,7 @@ class Email
      * @var string
      *
      * @ORM\Column(name="email", type="string", length=255, nullable=false)
+     * @Assert\NotBlank
      */
     private $email;
 
@@ -34,7 +36,7 @@ class Email
      *
      * @ORM\Column(name="is_primary", type="boolean", nullable=false)
      */
-    private $isPrimary;
+    private $isPrimary = false;
 
     /**
      * @var \Contact
