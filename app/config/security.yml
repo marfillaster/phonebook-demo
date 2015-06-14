@@ -22,8 +22,15 @@ security:
             pattern: ^/public
             security: false
 
+        api:
+            pattern: ^/api
+            security: false
+
         default:
             pattern: ^/
             http_basic: ~
             logout: ~
 
+    access_control:
+         # for csrf whitelisting
+         - { path: ^/api, roles: ROLE_API }
