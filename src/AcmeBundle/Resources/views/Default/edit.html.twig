@@ -35,6 +35,18 @@
 {% block javascripts %}
    {{ parent() }}
 <script type="text/javascript">
+function addEmailFormDeleteLink($emailFormLi) {
+    var $removeFormA = $('<a href="#">delete</a>');
+    $emailFormLi.append($removeFormA);
+
+    $removeFormA.on('click', function(e) {
+        // prevent the link from creating a "#" on the URL
+        e.preventDefault();
+
+        // remove the li for the tag form
+        $emailFormLi.remove();
+    });
+}
 
 function addEmailForm($collectionHolder, $newLinkLi) {
     // Get the data-prototype explained earlier
@@ -53,6 +65,8 @@ function addEmailForm($collectionHolder, $newLinkLi) {
     // Display the form in the page in an li, before the "Add a tag" link li
     var $newFormLi = $('<li></li>').append(newForm);
     $newLinkLi.before($newFormLi);
+
+    addEmailFormDeleteLink($newFormLi);
 }
 
    var $collectionHolder;
@@ -61,10 +75,13 @@ function addEmailForm($collectionHolder, $newLinkLi) {
 var $addTagLink = $('<a href="#" class="add_tag_link">Add a Email</a>');
 var $newLinkLi = $('<li></li>').append($addTagLink);
 
+
 jQuery(document).ready(function() {
    // Get the ul that holds the collection of tags
    $collectionHolder = $('ul.emails');
-
+   $collectionHolder.find('li').each(function() {
+          addEmailFormDeleteLink($(this));
+      });
    // add the "add a tag" anchor and li to the tags ul
    $collectionHolder.append($newLinkLi);
 

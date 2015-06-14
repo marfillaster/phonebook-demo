@@ -22,6 +22,7 @@ class ContactFormType extends AbstractType
                 'type' => new EmailFormType,
                 'allow_add'    => true,
                 'by_reference' => false,
+                'allow_delete' => true,
             ));
         }
 

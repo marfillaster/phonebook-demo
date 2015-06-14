@@ -8,7 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Request;
 use AcmeBundle\Entity\Contact;
 use AcmeBundle\Form\Type\ContactFormType;
-
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class DefaultController extends Controller
@@ -118,12 +118,25 @@ class DefaultController extends Controller
              throw new NotFoundHttpException;
          }
 
+         $originalEmails = new ArrayCollection();
+         foreach ($contact->getEmails() as $email) {
+             $originalEmails->add($email);
+         }
+
          $form = $this->createForm(new ContactFormType, $contact);
 
          if ($request->isMethod('post')) {
              $form->handleRequest($request);
 
              if ($form->isValid()) {
+
+                 foreach ($originalEmails as $email) {
+                    if (false === $contact->getEmails()->contains($email)) {
+                        // remove the Task from the Tag
+                        $contact->getEmails()->removeElement($email);
+                        $om->remove($email);
+                    }
+                }
 
                  $om->persist($contact);
 

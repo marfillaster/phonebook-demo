@@ -148,6 +148,6 @@ class Contact
 
     public function removeEmail(Email $email)
     {
-
+        $this->emails->removeElement($email);
     }
 }
