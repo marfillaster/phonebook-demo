@@ -3,6 +3,7 @@
 namespace AcmeBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * Email
@@ -42,6 +43,7 @@ class Email
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="contact_id", referencedColumnName="id")
      * })
+     * @Serializer\Exclude
      */
     private $contact;
 
@@ -63,7 +65,7 @@ class Email
     /**
      * Get email
      *
-     * @return string 
+     * @return string
      */
     public function getEmail()
     {
@@ -86,7 +88,7 @@ class Email
     /**
      * Get isPrimary
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getIsPrimary()
     {
@@ -96,7 +98,7 @@ class Email
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -119,7 +121,7 @@ class Email
     /**
      * Get contact
      *
-     * @return \AcmeBundle\Entity\Contact 
+     * @return \AcmeBundle\Entity\Contact
      */
     public function getContact()
     {

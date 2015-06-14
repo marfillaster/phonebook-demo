@@ -5,6 +5,7 @@ namespace AcmeBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
+use JMS\Serializer\Annotation as JMS;
 
 /**
  * Contact
@@ -47,6 +48,7 @@ class Contact
 
     /**
      * @ORM\OneToMany(targetEntity="Email", mappedBy="contact")
+     * @JMS\Exclude
      **/
     private $emails;
 
@@ -131,5 +133,10 @@ class Contact
     public function getId()
     {
         return $this->id;
+    }
+
+    public function getEmails()
+    {
+        return $this->emails;
     }
 }
