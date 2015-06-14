@@ -6,25 +6,14 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
+use AcmeBundle\Entity\Email;
 
-class ContactFormType extends AbstractType
+class EmailFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-           ->add('name', 'text')
-           ->add('mobile', new PhoneNumberFormType);
-
-        if ($builder->getData() && $builder->getData()->getId()) {
-            $builder->add('company');
-
-            $builder->add('emails', 'collection', array(
-                'type' => new EmailFormType,
-                'allow_add'    => true,
-                'by_reference' => false,
-            ));
-        }
-
+           ->add('email', 'email');
     }
 
 
@@ -32,7 +21,7 @@ class ContactFormType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'csrf_protection' => true
+            'data_class' => Email::CLASS
         ));
     }
 

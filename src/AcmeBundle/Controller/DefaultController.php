@@ -64,6 +64,7 @@ class DefaultController extends Controller
 
              if ($form->isValid()) {
                  $om->persist($contact);
+
                  $om->flush();
 
                  $session->getFlashBag()->set('success', 'Contact Added: '. ($contact->getId()));
@@ -125,6 +126,7 @@ class DefaultController extends Controller
              if ($form->isValid()) {
 
                  $om->persist($contact);
+
                  $om->flush();
 
                  $session->getFlashBag()->set('success', 'Contact Updated');

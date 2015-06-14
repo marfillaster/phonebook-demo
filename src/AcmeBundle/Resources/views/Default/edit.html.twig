@@ -9,11 +9,77 @@
 </div>
 {% endif %}
 {% form_theme form 'bootstrap_3_layout.html.twig' %}
-  <form  action="{{ path('contact_edit', {id: contact.id}) }}" method="post">
-    
+  <form novalidate action="{{ path('contact_edit', {id: contact.id}) }}" method="post">
+
+    {{ form_row(form.name) }}
+    {{ form_row(form.mobile) }}
+    {{ form_row(form.company) }}
+
+
+
+    <ul class="emails" data-prototype="{{ form_widget(form.emails.vars.prototype)|e }}">
+    {% for email in form.emails %}
+        <li>{{ form_row(email.email, {label: 'Email#' ~ loop.index }) }}</li>
+    {% endfor %}
+
+    </ul>
+
+
     {{ form_rest(form) }}
     <button  class="btn btn-success" type="submit">Save</button>
     <a class="btn btn-default"  href="{{ path('contacts')}}">Back to list</a>
   </form>
+
+{% endblock %}
+
+{% block javascripts %}
+   {{ parent() }}
+<script type="text/javascript">
+
+function addEmailForm($collectionHolder, $newLinkLi) {
+    // Get the data-prototype explained earlier
+    var prototype = $collectionHolder.data('prototype');
+
+    // get the new index
+    var index = $collectionHolder.data('index');
+
+    // Replace '__name__' in the prototype's HTML to
+    // instead be a number based on how many items we have
+    var newForm = prototype.replace(/__name__/g, index);
+
+    // increase the index with one for the next item
+    $collectionHolder.data('index', index + 1);
+
+    // Display the form in the page in an li, before the "Add a tag" link li
+    var $newFormLi = $('<li></li>').append(newForm);
+    $newLinkLi.before($newFormLi);
+}
+
+   var $collectionHolder;
+
+// setup an "add a tag" link
+var $addTagLink = $('<a href="#" class="add_tag_link">Add a Email</a>');
+var $newLinkLi = $('<li></li>').append($addTagLink);
+
+jQuery(document).ready(function() {
+   // Get the ul that holds the collection of tags
+   $collectionHolder = $('ul.emails');
+
+   // add the "add a tag" anchor and li to the tags ul
+   $collectionHolder.append($newLinkLi);
+
+   // count the current form inputs we have (e.g. 2), use that as the new
+   // index when inserting a new item (e.g. 2)
+   $collectionHolder.data('index', $collectionHolder.find(':input').length);
+
+   $addTagLink.on('click', function(e) {
+       // prevent the link from creating a "#" on the URL
+       e.preventDefault();
+
+       // add a new tag form (see next code block)
+       addEmailForm($collectionHolder, $newLinkLi);
+   });
+});
+</script>
 
 {% endblock %}

@@ -47,7 +47,7 @@ class Contact
     private $company;
 
     /**
-     * @ORM\OneToMany(targetEntity="Email", mappedBy="contact")
+     * @ORM\OneToMany(targetEntity="Email", mappedBy="contact", cascade={"persist"})
      * @JMS\Exclude
      **/
     private $emails;
@@ -138,5 +138,16 @@ class Contact
     public function getEmails()
     {
         return $this->emails;
+    }
+
+    public function addEmail(Email $email)
+    {
+       $email->setContact($this);
+       $this->emails->add($email);
+    }
+
+    public function removeEmail(Email $email)
+    {
+
     }
 }
