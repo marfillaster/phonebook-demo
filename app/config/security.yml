@@ -14,6 +14,8 @@ security:
             entity:
                 class: UserBundle:User
                 property: username
+        api_key_user_provider:
+            id: apikey_provider
     encoders:
         UserBundle\Entity\User: plaintext
 
@@ -26,9 +28,17 @@ security:
             pattern: ^/public
             security: false
 
+        api_doc:
+            pattern: ^/api/doc
+            security: false
+
         api:
             pattern: ^/api
-            security: false
+            stateless: true
+            simple_preauth:
+                authenticator: apikey_authenticator
+            provider: api_key_user_provider
+
 
         default:
             pattern: ^/
